@@ -1,0 +1,17 @@
+---
+- name: "Fail if OS/Architecture is not supported"
+  fail:
+    msg: "Installing kubernetes-cni on {{ (ansible_os_family | lower) + '_' + (ansible_architecture | lower) }} is unsupported."
+  when:
+    - "(install_kubernetes_cni_packages | default({}))[(ansible_os_family | lower) + '_' + (ansible_architecture | lower)] is not defined"
+    - "kubernetes_cni is defined"
+  tags:
+    - "kubernetes-cni"
+- name: "Install kubernetes-cni"
+  package:
+    pkg: "{{ install_kubernetes_cni_packages[(ansible_os_family | lower) + '_' + (ansible_architecture | lower)] }}"
+    state: "present"
+  when:
+    - "kubernetes_cni is defined"
+  tags:
+    - "kubernetes-cni"
