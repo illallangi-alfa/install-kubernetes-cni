@@ -3,5 +3,4 @@ install_kubernetes_cni_packages:
   common: &common
     - "kubernetes-cni"
   debian_armv7l: *common
-  debian_armv6l: *common
   redhat_x86_64: *common
